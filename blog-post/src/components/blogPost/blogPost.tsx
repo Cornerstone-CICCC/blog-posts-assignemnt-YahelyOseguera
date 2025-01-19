@@ -1,26 +1,25 @@
-import { useState , useEffect} from 'react'
-
-function BlogPostComponent(props: any) {
-    const [post, setPost] = useState(props.post)
-
-    const fetchPosts = async (setPosts: any) => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-        
-        const data = await response.json().then( data => data.slice(0,20)) 
-        console.log(data)
-        setPosts(data)
-    
-      };
-
-    useEffect(() => {
-        setPost(props.post)
-    }, [props.post])
 
 
-    fetchPosts(setPost)
-  return (
-    <p> key={props.id} title: {props.title} body: {props.body}</p>
-  )
+type Post ={
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
 }
 
-export default BlogPostComponent
+
+interface blogPostProps{
+  post: Post;
+}
+const BlogPostComponent  = ({ post }: blogPostProps) => {
+  return (
+    
+      <div className="blog-post">
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+          <p><strong>Author ID:</strong> {post.userId}</p>
+      </div>
+  );
+};
+
+export default BlogPostComponent;

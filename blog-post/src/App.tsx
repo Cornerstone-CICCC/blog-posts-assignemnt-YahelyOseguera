@@ -1,44 +1,31 @@
 import { useState, useEffect } from 'react'
-//import BlogPostList from './components/blogPostList/blogPostList'
-//import BlogPostComponent from './components/blogPost/blogPost'
+import BlogPostList from './components/blogPostList /blogPostList';
 import './App.css'
 
-function BlogPostComponent(props: any) {
-  return (
-    <p> key={props.id} title: {props.title} body: {props.body}</p>
-  )
-}
 
 function App() {
-  const [posts, setPosts] = useState([])
- 
-  const fetchPosts = async (setPosts: any) => {
+  const [posts, setPosts] = useState([]);
+  const [getPost, setGetPost] = useState(false);
+
+  const fetchPosts = async () => {
     const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-    
-    const data = await response.json().then( data => data.slice(0,20)) 
-    console.log(data)
-    setPosts(data)
-
-    useEffect(() => {
-      console.log('fetching posts')
-      fetchPosts(setPosts)
-    }, [])
-
-    console.log(posts)
+    const data = await response.json();
+    setPosts(data); 
   };
-
-
+  
+  const handleGetPost = () => {
+    setGetPost(true);
+  }
+    useEffect(() => {
+      console.log('Fetching posts');
+      fetchPosts();
+    }, []); 
+  
   return ( 
     <>
       <h1>Blog Posts</h1>
-      <button onClick={fetchPosts}>Show Posts</button>
-
-    <BlogPostComponent posts={posts} />
-      <div>
-        {posts.map((post: any) => (
-            <p> key={post.id} title: {post.title} body: {post.body}</p>
-        ))}
-      </div>
+      <button  onClick={handleGetPost}>Show Posts</button>
+      {getPost && <BlogPostList posts={posts}/>}
     </>
   )
 }

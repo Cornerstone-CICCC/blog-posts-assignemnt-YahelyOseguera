@@ -1,9 +1,24 @@
-import BlogPostComponent from '../blogPost/blogPost'
+import BlogPostComponent from "../blogPost/blogPost"
 
-function BlogPostList(props: any) {
+interface Post {
+    id: number;
+    title: string;
+    body: string;
+    userId: number;
+  }
+
+interface blogPostProps {
+    posts: Post[]
+}
+
+const BlogPostList = ({posts}: blogPostProps ) => {
     return (
-        <BlogPostComponent post={props.post} />
+        <div>
+            {posts.map((post) => (
+                <BlogPostComponent key={post.id} post={post} />
+            ))}
+        </div> 
     )
 }
-    
-export default BlogPostList
+
+export default BlogPostList;
